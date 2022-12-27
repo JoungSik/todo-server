@@ -188,4 +188,7 @@ Temporary Items
 # temp file
 tmp/*
 
+# config file
+test.db
+
 # End of https://www.toptal.com/developers/gitignore/api/go,osx,visualstudiocode,goland
