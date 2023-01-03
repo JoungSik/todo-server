@@ -17,5 +17,8 @@ func main() {
 	e.Use(middleware.Logger())
 	e.Use(middleware.Recover())
 
+	routers := configs.Router{}.NewRouter()
+	routers.Init(e)
+
 	e.Logger.Fatal(e.Start(":1323"))
 }
