@@ -32,7 +32,7 @@ func (KafkaConfig) Init() *KafkaConfig {
 
 func (config KafkaConfig) KafkaMiddleware(next echo.HandlerFunc) echo.HandlerFunc {
 	return func(context echo.Context) error {
-		context.Set("kafka", config.Producer)
+		context.Set("kafka", config)
 		return next(context)
 	}
 }
