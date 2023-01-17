@@ -3,7 +3,9 @@ package handlers
 import (
 	"net/http"
 	"todo-server/handlers/dto"
+	"todo-server/kafka"
 
+	"github.com/Shopify/sarama"
 	"github.com/labstack/echo/v4"
 	"gorm.io/gorm"
 )
@@ -41,7 +43,17 @@ func (eventHandler *EventHandler) Create(ctx echo.Context) error {
 	if result.Error != nil {
 		return ctx.JSON(http.StatusBadRequest, result.Error.Error())
 	} else {
-		return ctx.JSON(http.StatusCreated, event)
+		kafka := ctx.Get("kafka").(kafka.KafkaConfig)
+		partition, offset, _ := kafka.Producer.SendMessage(&sarama.ProducerMessage{
+			Topic: kafka.Topics[0],
+			Value: sarama.StringEncoder(event.Title),
+		})
+
+		return ctx.JSON(http.StatusCreated, echo.Map{
+			"data":      event,
+			"partition": partition,
+			"offset":    offset,
+		})
 	}
 }
 
