@@ -46,7 +46,7 @@ func (eventHandler *EventHandler) Create(ctx echo.Context) error {
 		kafka := ctx.Get("kafka").(kafka.KafkaConfig)
 		partition, offset, _ := kafka.Producer.SendMessage(&sarama.ProducerMessage{
 			Topic: kafka.Topics[0],
-			Value: sarama.StringEncoder(event.Title),
+			Value: sarama.StringEncoder(event.String()),
 		})
 
 		return ctx.JSON(http.StatusCreated, echo.Map{

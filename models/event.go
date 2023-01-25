@@ -1,6 +1,7 @@
 package models
 
 import (
+	"encoding/json"
 	"time"
 )
 
@@ -13,4 +14,9 @@ type Event struct {
 	StartAt     time.Time
 	CreatedAt   time.Time `gorm:"autoCreateTime"`
 	UpdatedAt   time.Time `gorm:"autoUpdateTime"`
+}
+
+func (e Event) String() string {
+	json, _ := json.Marshal(e)
+	return string(json)
 }
